@@ -28,13 +28,7 @@
 		* @access public
 		*/
 		public function __construct(){
-			//$this->connect();
-			try{
-				$this->connection = new PDO('mysql:host=localhost;dbname=cp_blog', self::USER, self::PASS);
-			}catch(PDOException $e){
-				echo $e->getMessage();
-			}
-			//var_dump($this->connection);
+			$this->connect();
 		}
 
 
@@ -132,7 +126,11 @@
 		* @access private
 		*/
 		private function connect(){
-			
+			try{
+				$this->connection = new PDO(self::DRIVER.':host='.self::HOST.';dbname='.self::DB_NAME, self::USER, self::PASS);
+			}catch(PDOException $e){
+				echo $e->getMessage();
+			}
 		}
 
 		/**
@@ -151,7 +149,7 @@
 		* @access public
 		*/
 		public function __desctruct(){
-			//$this->disconnect;
+			$this->disconnect;
 		}
 
 	}
