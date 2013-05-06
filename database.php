@@ -1,9 +1,9 @@
 <?php
-  
+	
 	/**
 	* database class using PDO
 	* @author Waqar Akbar
-	* @license MIT
+	* @license Fuck Coppy Rights
 	*/
 	class Database {
 
@@ -32,6 +32,22 @@
 		}
 
 
+		/**
+		* function to add record to database
+		* @param string $table table name of database
+		* @param array $data field value pairs of data
+		* @access public
+		*/
+		public function insert($table, $data){
+
+		}
+
+
+
+
+		
+
+
 
 
 
@@ -46,6 +62,17 @@
 		*/
 		private function arrayToCondition($array){
 			$this->isArray($array);
+			$num_elements = count($array);
+			$loop_count = 1;
+			$condition = "";
+			foreach ($array as $field => $value) {
+				$condition .= $field." = ".$value;
+				if($loop_count < $num_elements){
+					$condition .= " AND ";
+				}
+				$loop_count++;
+			}
+			return $condition;
 			
 		}
 
@@ -100,5 +127,10 @@
 		}
 
 	}
+
+
+
+
+$db = new Database();
 
 ?>
