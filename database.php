@@ -21,14 +21,20 @@
 		const USER 		= 'root';
 		CONST PASS 		= '';
 		const DRIVER	= 'mysql';
-		const DB_NAME	= '';
+		const DB_NAME	= 'cp_blog';
 
 		/**
 		* class constructor, will connect to the database using connect()
 		* @access public
 		*/
 		public function __construct(){
-			$this->connect();
+			//$this->connect();
+			try{
+				$this->connection = new PDO('mysql:host=localhost;dbname=cp_blog', self::USER, self::PASS);
+			}catch(PDOException $e){
+				echo $e->getMessage();
+			}
+			//var_dump($this->connection);
 		}
 
 
@@ -39,7 +45,15 @@
 		* @access public
 		*/
 		public function insert($table, $data){
-
+			$sql = "INSERT INTO ".$table;
+			$sql .= " SET ".$this->arrayToFields($data);
+			//echo $sql;
+			$prep_sql = $this->connection->prepare($sql);
+			$prep_sql->execute();
+			if($prep_sql->rowcount() == 1){
+				return true;
+			}
+			return false;
 		}
 
 
@@ -55,11 +69,11 @@
 			$this->isArray($array);
 			$num_elements = count($array);
 			$loop_count = 1;
-			$field = "";
+			$fields = "";
 			foreach ($array as $field => $value) {
-				$fields .= $field." = ".$value;
+				$fields .= $field." = '".$value."'";
 				if ($loop_count < $num_elements) {
-					$fields .= ",";
+					$fields .= ", ";
 				}
 				$loop_count++;
 			}
@@ -118,12 +132,7 @@
 		* @access private
 		*/
 		private function connect(){
-			try{
-				$this->connection = new PDO(self::DRIVER.':host='.self::HOST.';dbname='.self::DB_NAME, self::USER, self::PASS);
-			}catch(PDOException $e){
-				echo $e->getMessage();
-				die();
-			}
+			
 		}
 
 		/**
@@ -142,14 +151,23 @@
 		* @access public
 		*/
 		public function __desctruct(){
-			$this->disconnect;
+			//$this->disconnect;
 		}
 
 	}
 
 
 
-
+//testing database class
 $db = new Database();
-
+$data = array(
+			'title'=>'testing',
+			'body'=>'alskdfjaskdfj',
+			'created'=>'2013-02-05'
+		);
+if($db->insert('posts', $data) == true){
+	echo 'record inserted';
+}else{
+	echo "failed";
+}
 ?>
