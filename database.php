@@ -45,7 +45,26 @@
 
 
 
-		
+		/**
+		* function to convert array to fields value pair for query
+		* @param array $array associative array of fields and values
+		* @access private
+		* @return string $fields fields and value pairs
+		*/
+		private function arrayToFields($array){
+			$this->isArray($array);
+			$num_elements = count($array);
+			$loop_count = 1;
+			$field = "";
+			foreach ($array as $field => $value) {
+				$fields .= $field." = ".$value;
+				if ($loop_count < $num_elements) {
+					$fields .= ",";
+				}
+				$loop_count++;
+			}
+			return $fields;
+		}
 
 
 
