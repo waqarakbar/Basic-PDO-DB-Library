@@ -1,4 +1,4 @@
-cakephp
+Basic PDO database library for CRUD
 =======
 
-For cakePHP practice
+Well, the code is properlly commented and very simple.
