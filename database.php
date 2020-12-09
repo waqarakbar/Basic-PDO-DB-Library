@@ -3,7 +3,7 @@
   /**
   * database class using PDO
   * @author Waqar Akbar
-  * @license Fuck Coppy Rights
+  * @license --
   */
   class Database {
 
